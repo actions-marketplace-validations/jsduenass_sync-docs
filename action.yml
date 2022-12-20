@@ -36,10 +36,13 @@ inputs:
 outputs:
   merge_result:
     description: Raw result of the git merge command
+    value: outputs.merge_result
   conflicts:
     description: List of conflicting files
+    value: outputs.conflicts
   completed:
     description: Percentaje of files different with respect upstream
+    value: outputs.completed
 
 runs:
   using: "docker"
