@@ -31,7 +31,7 @@ echo "UPSTREAM_REPO=$UPSTREAM_REPO"
 
 
 # Checkout repository working and add upstream remote
-git clone -b "$DOWNSTREAM_BRANCH https://github.com/${GITHUB_REPOSITORY}.git" work
+git clone -b $DOWNSTREAM_BRANCH "https://github.com/${GITHUB_REPOSITORY}.git" work
 cd work || { echo "Missing work dir" && exit 2 ; }
 
 git config user.name "${GITHUB_ACTOR}"
