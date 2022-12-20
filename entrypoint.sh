@@ -91,6 +91,6 @@ then
   echo "Complete message: " >> bodyfile 
   echo "${MERGE_RESULT}" >> bodyfile
   cat bodyfile
-  echo ${GITHUB_TOKEN} | gh auth login --git-protocol ssh --hostname GitHub.com --with-token
+  echo ${GITHUB_TOKEN} | gh auth login --git-protocol https --hostname GitHub.com --with-token
   gh issue create --repo https://github.com/${GITHUB_REPOSITORY}.git --title "Fix conflict in $CONFLICTS" --body-file bodyfile
 fi
