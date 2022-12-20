@@ -44,6 +44,7 @@ outputs:
     description: Percentaje of files different with respect upstream
     value: outputs.completed
 
+
 runs:
   using: "docker"
   image: "Dockerfile"
