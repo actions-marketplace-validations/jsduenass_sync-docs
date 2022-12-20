@@ -38,7 +38,7 @@ git config user.name "${GITHUB_ACTOR}"
 git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
 git config --local user.password ${GITHUB_TOKEN}
 
-git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+git remote set-url origin "https://github.com/${GITHUB_REPOSITORY}.git"
 
 git remote add upstream "$UPSTREAM_REPO"
 git fetch ${FETCH_ARGS} upstream
