@@ -36,7 +36,7 @@ inputs:
 outputs:
   merge_result:
     description: Raw result of the git merge command
-   conflicts:
+  conflicts:
     description: List of conflicting files
   completed:
     description: Percentaje of files different with respect upstream
