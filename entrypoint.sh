@@ -91,6 +91,10 @@ then
   echo "Complete message: " >> bodyfile 
   echo "${MERGE_RESULT}" >> bodyfile
   cat bodyfile
-  # gh auth login --git-protocol https --hostname GitHub.com --with-token < gt
-  GH_TOKEN=${GITHUB_TOKEN} gh issue create --repo https://github.com/${GITHUB_REPOSITORY}.git --title "Fix conflict in $CONFLICTS" --body-file bodyfile
+
+  if GH_TOKEN=${GITHUB_TOKEN} gh issue list --repo https://github.com/${GITHUB_REPOSITORY}.git | grep -v "Fix conflict in $CONFLICTS"
+  then 
+    # gh auth login --git-protocol https --hostname GitHub.com --with-token < gt
+    GH_TOKEN=${GITHUB_TOKEN} gh issue create --repo https://github.com/${GITHUB_REPOSITORY}.git --title "Fix conflict in $CONFLICTS" --body-file bodyfile
+  fi
 fi
