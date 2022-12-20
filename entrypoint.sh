@@ -38,7 +38,7 @@ git config user.name "${GITHUB_ACTOR}"
 git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
 git config --local user.password ${GITHUB_TOKEN}
 
-git remote set-url origin "https://github.com/${GITHUB_REPOSITORY}.git"
+git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
 
 git remote add upstream "$UPSTREAM_REPO"
 git fetch ${FETCH_ARGS} upstream
@@ -79,18 +79,18 @@ fi
 cd ..
 rm -rf work
 
-echo "##[set-output name=merge_result;]${MERGE_RESULT}"
-echo "##[set-output name=conflicts;]${CONFLICTS}"
-echo "##[set-output name=completed;]${PERCENTAGE_DIFF_FILES}"
+echo "merge_result=${MERGE_RESULT}" >> $GITHUB_OUTPUT
+echo "conflicts=${CONFLICTS}" >> $GITHUB_OUTPUT
+echo "completed=${PERCENTAGE_DIFF_FILES}" >> $GITHUB_OUTPUT
 
-# if [[ $CONFLICTS ]]
-# then 
-#   echo "Please resolve conflicts in next files:" > bodyfile 
-#   echo "${CONFLICTS}" >> bodyfile 
-#   echo  >> bodyfile 
-#   echo "Complete message: " >> bodyfile 
-#   echo "${MERGE_RESULT}" >> bodyfile
-#   cat bodyfile
-#   echo ${GITHUB_TOKEN} | gh auth login --git-protocol ssh --hostname GitHub.com --with-token
-#   gh issue create --repo https://github.com/${GITHUB_REPOSITORY}.git --title "Fix conflict in $CONFLICTS" --body-file bodyfile
-# fi
+if [[ $CONFLICTS ]]
+then 
+  echo "Please resolve conflicts in next files:" > bodyfile 
+  echo "${CONFLICTS}" >> bodyfile 
+  echo  >> bodyfile 
+  echo "Complete message: " >> bodyfile 
+  echo "${MERGE_RESULT}" >> bodyfile
+  cat bodyfile
+  echo ${GITHUB_TOKEN} | gh auth login --git-protocol ssh --hostname GitHub.com --with-token
+  gh issue create --repo https://github.com/${GITHUB_REPOSITORY}.git --title "Fix conflict in $CONFLICTS" --body-file bodyfile
+fi
