@@ -90,10 +90,17 @@ then
   echo  >> bodyfile 
   echo "Complete message: " >> bodyfile 
   echo "${MERGE_RESULT}" >> bodyfile
+ 
+  GH_TOKEN=${GITHUB_TOKEN} gh issue create --repo https://github.com/${GITHUB_REPOSITORY}.git --title "$UPSTREAM_BRANCH Fix merging conflict" --body-file bodyfile --label "automatic-sync-merge" 
+  
+  EMPTY_RESPONSE="no issues match your search in $GITHUB_REPOSITORY"
+  echo "$EMPTY_RESPONSE"
+  AUTOMATIC_ISSUE_LIST=$(GH_TOKEN=${GITHUB_TOKEN} gh issue list --label automatic-sync-merge --repo https://github.com/${GITHUB_REPOSITORY}.git)
+  echo "$AUTOMATIC_ISSUE_LIST"
 
-  # if GH_TOKEN=${GITHUB_TOKEN} gh issue list --repo https://github.com/${GITHUB_REPOSITORY}.git | grep -v "Fix conflict in $CONFLICTS"
-  # then 
+  #if ["$AUTOMATIC_ISSUE_LIST" ="$EMPTY_RESPONSE"]
+  #then 
     # gh auth login --git-protocol https --hostname GitHub.com --with-token < gt
-    GH_TOKEN=${GITHUB_TOKEN} gh issue create --repo https://github.com/${GITHUB_REPOSITORY}.git --title "Fix conflict in $CONFLICTS" --body-file bodyfile
-  # fi
+   
+  #fi
 fi
