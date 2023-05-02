@@ -79,9 +79,17 @@ fi
 cd ..
 rm -rf work
 
-echo "merge_result=${MERGE_RESULT}" >> $GITHUB_OUTPUT
-echo "conflicts=${CONFLICTS}" >> $GITHUB_OUTPUT
-echo "completed=${PERCENTAGE_DIFF_FILES}" >> $GITHUB_OUTPUT
+echo "merge_result<<EOF" >> $GITHUB_OUTPUT
+echo "${MERGE_RESULT}" >> $GITHUB_OUTPUT
+echo "EOF" >> $GITHUB_OUTPUT
+
+echo "conflicts<<EOF" >> $GITHUB_OUTPUT
+echo "${CONFLICTS}" >> $GITHUB_OUTPUT
+echo "EOF" >> $GITHUB_OUTPUT
+
+echo "completed<<EOF" >> $GITHUB_OUTPUT
+echo "${PERCENTAGE_DIFF_FILES}" >> $GITHUB_OUTPUT
+echo "EOF" >> $GITHUB_OUTPUT
 
 if [[ $CONFLICTS ]]
 then 
@@ -91,9 +99,19 @@ then
   echo "Complete message: " >> bodyfile 
   echo "${MERGE_RESULT}" >> bodyfile
 
-  # if GH_TOKEN=${GITHUB_TOKEN} gh issue list --repo https://github.com/${GITHUB_REPOSITORY}.git | grep -v "Fix conflict in $CONFLICTS"
-  # then 
-    # gh auth login --git-protocol https --hostname GitHub.com --with-token < gt
-    GH_TOKEN=${GITHUB_TOKEN} gh issue create --repo https://github.com/${GITHUB_REPOSITORY}.git --title "Fix conflict in $CONFLICTS" --body-file bodyfile
-  # fi
+  touch placeholder.txt
+
+  GH_TOKEN=${GITHUB_TOKEN} gh issue list --label automatic-sync-merge --repo https://github.com/${GITHUB_REPOSITORY}.git >> placeholder.txt
+
+  AUTOMATIC_ISSUE_LIST=`cat placeholder.txt`
+  #echo "$AUTOMATIC_ISSUE_LIST"
+
+  #avoid created duplicated issue
+  #create the issue if the previous automatic-sync is no longer open
+  if [[ $AUTOMATIC_ISSUE_LIST = "" ]]
+  then 
+    GH_TOKEN=${GITHUB_TOKEN} gh issue create --repo https://github.com/${GITHUB_REPOSITORY}.git --title "$UPSTREAM_BRANCH Fix merging conflict" --body-file bodyfile --label "automatic-sync-merge" 
+  
+     
+  fi
 fi
