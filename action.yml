@@ -1,5 +1,5 @@
 name: Sync and merge upstream repo
-description: Syncs and merges your current repository with the upstream repository. Inspired in of https://github.com/dabreadman/sync-upstream-repo.
+description: Syncs and merges repo. Inspired from https://github.com/dabreadman/sync-upstream-repo.
 author: fmrico
 
 inputs:
