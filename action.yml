@@ -1,4 +1,4 @@
-name: Sync and merge upstream repository with your current repository, and create an issue in case of conflict
+name: Sync and merge upstream repo
 description: Syncs and merges your current repository with the upstream repository. Inspired in of https://github.com/dabreadman/sync-upstream-repo.
 author: fmrico
 
